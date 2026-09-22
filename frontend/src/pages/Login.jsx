@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MessageSquare, Sparkles, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { seedAccounts } from '../services/authService';
+import { useAuth } from '../context/AuthContext';
 
 const Login = ({ onSwitchToRegister, onBackToLanding }) => {
   const { login, loading } = useAuth();
@@ -10,7 +10,7 @@ const Login = ({ onSwitchToRegister, onBackToLanding }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [seeding, setSeeding] = useState(false);
+
 
   // Forgot Password State
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -32,20 +32,6 @@ const Login = ({ onSwitchToRegister, onBackToLanding }) => {
       await login(email, password);
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
-    }
-  };
-
-  const handleQuickLogin = async (demoEmail) => {
-    setError('');
-    setSeeding(true);
-    try {
-      // Ensure seed accounts exist first
-      await seedAccounts();
-      await login(demoEmail, 'password123');
-    } catch (err) {
-      setError('Quick login failed: ' + (err.response?.data?.message || err.message));
-    } finally {
-      setSeeding(false);
     }
   };
 
@@ -330,34 +316,10 @@ const Login = ({ onSwitchToRegister, onBackToLanding }) => {
             </div>
           </div>
 
-          <button type="submit" className="btn-primary" disabled={loading || seeding}>
+          <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
-
-        <div className="quick-users">
-          <div className="quick-users-title" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-            <Sparkles size={12} color="var(--accent-primary)" /> 1-Click Quick Demo Login
-          </div>
-          <div className="quick-users-grid">
-            <button className="quick-user-btn" onClick={() => handleQuickLogin('kush@example.com')} disabled={seeding}>
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kush" alt="Kush" className="quick-user-avatar" />
-              <span>Kush</span>
-            </button>
-            <button className="quick-user-btn" onClick={() => handleQuickLogin('rahul@example.com')} disabled={seeding}>
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul" alt="Rahul" className="quick-user-avatar" />
-              <span>Rahul</span>
-            </button>
-            <button className="quick-user-btn" onClick={() => handleQuickLogin('priya@example.com')} disabled={seeding}>
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Priya" alt="Priya" className="quick-user-avatar" />
-              <span>Priya</span>
-            </button>
-            <button className="quick-user-btn" onClick={() => handleQuickLogin('amit@example.com')} disabled={seeding}>
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Amit" alt="Amit" className="quick-user-avatar" />
-              <span>Amit</span>
-            </button>
-          </div>
-        </div>
 
         <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
           Don't have an account?{' '}
