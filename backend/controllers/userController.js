@@ -52,7 +52,7 @@ const updateUserProfile = async (req, res) => {
       user.profileImage = req.body.profileImage || user.profileImage;
 
       if (req.file) {
-        user.profileImage = `/uploads/${req.file.filename}`;
+        user.profileImage = req.file.path;
       }
 
       if (req.body.password) {

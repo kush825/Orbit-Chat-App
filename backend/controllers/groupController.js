@@ -100,7 +100,7 @@ exports.updateGroupSettings = async (req, res) => {
     let groupImage = req.body.groupImage;
     
     if (req.file) {
-      groupImage = `/uploads/${req.file.filename}`;
+      groupImage = req.file.path;
     }
 
     const conversation = await Conversation.findById(req.params.id);

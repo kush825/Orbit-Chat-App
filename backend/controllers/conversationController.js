@@ -137,7 +137,7 @@ const createGroupConversation = async (req, res) => {
   try {
     let groupImage = req.body.groupImage || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=300&q=80';
     if (req.file) {
-      groupImage = `/uploads/${req.file.filename}`;
+      groupImage = req.file.path;
     }
 
     const groupChat = await Conversation.create({

@@ -68,7 +68,7 @@ const sendMessage = async (req, res) => {
 
   if (req.files && req.files.length > 0) {
     attachments = req.files.map(f => ({
-      url: `/uploads/${f.filename}`,
+      url: f.path,
       name: f.originalname,
       type: f.mimetype,
     }));
@@ -79,7 +79,7 @@ const sendMessage = async (req, res) => {
     const isAudio = attachments[0].type.startsWith('audio/') || attachments[0].type === 'video/webm' || attachments[0].name.endsWith('.webm');
     messageType = attachments[0].type.startsWith('image/') ? 'image' : isAudio ? 'audio' : 'file';
   } else if (req.file) {
-    fileUrl = `/uploads/${req.file.filename}`;
+    fileUrl = req.file.path;
     fileName = req.file.originalname;
     fileType = req.file.mimetype;
 
