@@ -15,7 +15,7 @@ const server = http.createServer(app);
 
 // Middlewares
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => callback(null, true),
   credentials: true,
 }));
 app.use(express.json());
@@ -51,7 +51,7 @@ const { Server } = require('socket.io');
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: '*',
+    origin: (origin, callback) => callback(null, true),
     credentials: true,
   },
 });
