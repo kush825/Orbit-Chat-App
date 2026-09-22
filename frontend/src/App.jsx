@@ -24,6 +24,30 @@ const App = () => {
   const [isEnteringOrbit, setIsEnteringOrbit] = useState(false);
   const prevUserRef = useRef(null);
 
+  // Sync authView with browser history for swipe-to-back support
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.authView) {
+        setAuthView(event.state.authView);
+      } else {
+        setAuthView('landing');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    
+    // Replace initial state so the first swipe back doesn't leave the site unexpectedly
+    if (!window.history.state || !window.history.state.authView) {
+      window.history.replaceState({ authView: 'landing' }, '');
+    }
+
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleNavigate = (view) => {
+    window.history.pushState({ authView: view }, '');
+    setAuthView(view);
+  };
+
   // Run the app timer for normal users
   useAppTimer();
 
@@ -59,12 +83,12 @@ const App = () => {
 
   if (!user) {
     if (authView === 'login') {
-      return <Login onSwitchToRegister={() => setAuthView('register')} onBackToLanding={() => setAuthView('landing')} />;
+      return <Login onSwitchToRegister={() => handleNavigate('register')} onBackToLanding={() => { window.history.back(); }} />;
     }
     if (authView === 'register') {
-      return <Register onSwitchToLogin={() => setAuthView('login')} onBackToLanding={() => setAuthView('landing')} />;
+      return <Register onSwitchToLogin={() => handleNavigate('login')} onBackToLanding={() => { window.history.back(); }} />;
     }
-    return <LandingPage onNavigate={(view) => setAuthView(view)} />;
+    return <LandingPage onNavigate={(view) => handleNavigate(view)} />;
   }
 
   if (isEnteringOrbit) {

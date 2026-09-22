@@ -16,7 +16,30 @@ export const ChatProvider = ({ children }) => {
   const confirm = useConfirm();
 
   const [conversations, setConversations] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChat, _setSelectedChat] = useState(null);
+
+  // Wrap setSelectedChat to integrate with HTML5 History API for swipe-to-back gestures
+  const setSelectedChat = useCallback((chat) => {
+    if (chat && !selectedChat) {
+      window.history.pushState({ chatOpen: true }, '');
+    } else if (!chat && selectedChat) {
+      if (window.history.state && window.history.state.chatOpen) {
+        window.history.back(); 
+        return; 
+      }
+    }
+    _setSelectedChat(chat);
+  }, [selectedChat]);
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (!event.state || !event.state.chatOpen) {
+        _setSelectedChat(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
   const [messages, setMessages] = useState([]);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [conversationsLoaded, setConversationsLoaded] = useState(false);
