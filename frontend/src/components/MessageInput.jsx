@@ -238,10 +238,10 @@ const MessageInput = () => {
     if (replyMsg.specificAttachmentUrl) return replyMsg.specificAttachmentUrl;
     const firstImage = replyMsg.attachments?.find(a => a.type?.startsWith('image/'));
     if (firstImage && firstImage.url) {
-      return firstImage.url.startsWith('http') ? firstImage.url : `http://${window.location.hostname}:5000${firstImage.url}`;
+      return firstImage.url.startsWith('http') ? firstImage.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${firstImage.url}`;
     }
     if (replyMsg.fileType?.startsWith('image/') && replyMsg.file) {
-      return replyMsg.file.startsWith('http') ? replyMsg.file : `http://${window.location.hostname}:5000${replyMsg.file}`;
+      return replyMsg.file.startsWith('http') ? replyMsg.file : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${replyMsg.file}`;
     }
     return null;
   };

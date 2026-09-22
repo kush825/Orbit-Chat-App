@@ -4,7 +4,7 @@ import { useAuth } from './AuthContext';
 
 const SocketContext = createContext();
 
-const SOCKET_SERVER_URL = `http://${window.location.hostname}:5000`;
+const SOCKET_SERVER_URL = `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}`;
 
 export const SocketProvider = ({ children }) => {
   const { user } = useAuth();

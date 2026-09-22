@@ -118,13 +118,13 @@ const ReportDetail = ({ reportId, onBack }) => {
                     {msg.file && !msg.isDeleted && (
                       <div style={{ paddingLeft: '44px', marginTop: '12px' }}>
                         {msg.messageType === 'video' ? (
-                          <video src={`http://${window.location.hostname}:5000${msg.file}`} controls style={{ maxWidth: '200px', borderRadius: '8px' }} />
+                          <video src={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${msg.file}`} controls style={{ maxWidth: '200px', borderRadius: '8px' }} />
                         ) : msg.messageType === 'file' ? (
-                          <a href={`http://${window.location.hostname}:5000${msg.file}`} target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', textDecoration: 'none', background: 'rgba(59,130,246,0.1)', padding: '8px 12px', borderRadius: '8px', display: 'inline-block' }}>
+                          <a href={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${msg.file}`} target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', textDecoration: 'none', background: 'rgba(59,130,246,0.1)', padding: '8px 12px', borderRadius: '8px', display: 'inline-block' }}>
                             View Attachment
                           </a>
                         ) : (
-                          <img src={`http://${window.location.hostname}:5000${msg.file}`} alt="Media" style={{ maxWidth: '200px', borderRadius: '8px' }} />
+                          <img src={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${msg.file}`} alt="Media" style={{ maxWidth: '200px', borderRadius: '8px' }} />
                         )}
                       </div>
                     )}

@@ -261,7 +261,7 @@ export const ChatProvider = ({ children }) => {
                const notificationBody = notifs.preview !== false ? textPreview : 'New Message';
                const n = new Notification(`Message from ${senderName}`, {
                  body: notificationBody,
-                 icon: senderAvatar ? `http://${window.location.hostname}:5000${senderAvatar}` : '/vite.svg',
+                 icon: senderAvatar ? `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${senderAvatar}` : '/vite.svg',
                  silent: true
                });
                n.onclick = () => {

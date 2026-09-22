@@ -82,7 +82,7 @@ const AdminUserDetails = ({ userId, onBack }) => {
   const getAvatarUrl = (path, fallbackName) => {
     if (!path) return `https://api.dicebear.com/7.x/avataaars/svg?seed=${fallbackName}`;
     if (path.startsWith('http')) return path;
-    return `http://${window.location.hostname}:5000${path}`;
+    return `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${path}`;
   };
 
   const formatTime = (totalSeconds) => {

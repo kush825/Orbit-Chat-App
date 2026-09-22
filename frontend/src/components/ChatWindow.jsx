@@ -188,7 +188,7 @@ const ChatWindow = () => {
     filesToDownload.forEach((file, idx) => {
       setTimeout(async () => {
         try {
-          const url = file.url.startsWith('http') ? file.url : `http://${window.location.hostname}:5000${file.url}`;
+          const url = file.url.startsWith('http') ? file.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${file.url}`;
           const response = await fetch(url);
           const blob = await response.blob();
           const blobUrl = window.URL.createObjectURL(blob);
@@ -208,7 +208,7 @@ const ChatWindow = () => {
           setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
         } catch (error) {
           console.error('Download failed:', error);
-          const url = file.url.startsWith('http') ? file.url : `http://${window.location.hostname}:5000${file.url}`;
+          const url = file.url.startsWith('http') ? file.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${file.url}`;
           window.open(url, '_blank');
         }
       }, idx * 500);
@@ -459,7 +459,7 @@ const ChatWindow = () => {
 
             {hasThumb && thumbUrl && (
               <div style={{ width: '32px', height: '32px', flexShrink: 0, borderRadius: '4px', overflow: 'hidden' }}>
-                <img src={`http://${window.location.hostname}:5000${thumbUrl}`} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${thumbUrl}`} alt="thumb" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             )}
           </div>

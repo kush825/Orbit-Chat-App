@@ -171,7 +171,7 @@ const CustomAudioPlayer = ({ audioSrc, sender }) => {
   };
 
   const avatarUrl = sender?.profileImage 
-    ? (sender.profileImage.startsWith('http') ? sender.profileImage : `http://${window.location.hostname}:5000${sender.profileImage}`)
+    ? (sender.profileImage.startsWith('http') ? sender.profileImage : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${sender.profileImage}`)
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(sender?.name || 'U')}&background=random`;
 
   return (

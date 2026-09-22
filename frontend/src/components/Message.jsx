@@ -169,7 +169,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
     setIsMediaDownloading(true);
     
     const img = new Image();
-    img.src = `http://${window.location.hostname}:5000${message.file}`;
+    img.src = `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`;
     img.onload = () => {
       setIsMediaDownloaded(true);
       setIsMediaDownloading(false);
@@ -215,14 +215,14 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
 
   const getReplyThumbnail = (replyMsg) => {
     if (message.replyToAttachmentUrl) {
-      return message.replyToAttachmentUrl.startsWith('http') ? message.replyToAttachmentUrl : `http://${window.location.hostname}:5000${message.replyToAttachmentUrl}`;
+      return message.replyToAttachmentUrl.startsWith('http') ? message.replyToAttachmentUrl : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.replyToAttachmentUrl}`;
     }
     const firstImage = replyMsg.attachments?.find(a => a.type?.startsWith('image/'));
     if (firstImage && firstImage.url) {
-      return firstImage.url.startsWith('http') ? firstImage.url : `http://${window.location.hostname}:5000${firstImage.url}`;
+      return firstImage.url.startsWith('http') ? firstImage.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${firstImage.url}`;
     }
     if (replyMsg.fileType?.startsWith('image/') && replyMsg.file) {
-      return replyMsg.file.startsWith('http') ? replyMsg.file : `http://${window.location.hostname}:5000${replyMsg.file}`;
+      return replyMsg.file.startsWith('http') ? replyMsg.file : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${replyMsg.file}`;
     }
     return null;
   };
@@ -620,25 +620,25 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 return isImage ? (
                   <div key={idx} style={{ position: 'relative', flex: message.attachments.length === 1 ? '1 1 100%' : '1 1 calc(50% - 4px)', minWidth: '120px' }}>
                     <img
-                      src={`http://${window.location.hostname}:5000${att.url}`}
+                      src={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`}
                       alt="Attachment"
                       style={{ width: '100%', height: message.attachments.length === 1 ? 'auto' : '150px', maxHeight: '300px', objectFit: 'cover', display: 'block', cursor: 'pointer' }}
                       onClick={() => {
                         const imageAtts = message.attachments.filter(a => a.type && a.type.startsWith('image/'));
                         const clickedIndex = imageAtts.findIndex(a => a.url === att.url);
-                        setViewerImages(imageAtts.map(a => ({ url: `http://${window.location.hostname}:5000${a.url}`, name: a.name })));
+                        setViewerImages(imageAtts.map(a => ({ url: `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${a.url}`, name: a.name })));
                         setViewerIndex(clickedIndex >= 0 ? clickedIndex : 0);
                       }}
                     />
                   </div>
                 ) : (att.type && att.type.startsWith('audio/')) || (att.name && att.name.toLowerCase().endsWith('.webm')) || (att.url && att.url.toLowerCase().endsWith('.webm')) ? (
                   <div key={idx} style={{ padding: '2px', width: '100%' }}>
-                    <CustomAudioPlayer audioSrc={`http://${window.location.hostname}:5000${att.url}`} sender={message.sender} />
+                    <CustomAudioPlayer audioSrc={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`} sender={message.sender} />
                   </div>
                 ) : (
                   <a
                     key={idx}
-                    href={`http://${window.location.hostname}:5000${att.url}`}
+                    href={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`}
                     target="_blank"
                     rel="noreferrer"
                     style={{ width: '100%', display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', color: 'inherit', textDecoration: 'none', marginBottom: '4px' }}
@@ -655,11 +655,11 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 <div style={{ position: 'relative', width: 'fit-content' }}>
                   {isMediaDownloaded ? (
                     <img
-                      src={`http://${window.location.hostname}:5000${message.file}`}
+                      src={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`}
                       alt="Attachment"
                       style={{ maxWidth: '100%', maxHeight: '250px', borderRadius: '12px', cursor: 'pointer' }}
                       onClick={() => {
-                        setViewerImages([{ url: `http://${window.location.hostname}:5000${message.file}`, name: message.fileName }]);
+                        setViewerImages([{ url: `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`, name: message.fileName }]);
                         setViewerIndex(0);
                       }}
                     />
@@ -698,11 +698,11 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 </div>
               ) : (message.messageType === 'audio' || (message.file && message.file.endsWith('.webm'))) ? (
                 <div style={{ padding: '2px' }}>
-                  <CustomAudioPlayer audioSrc={`http://${window.location.hostname}:5000${message.file}`} sender={message.sender} />
+                  <CustomAudioPlayer audioSrc={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`} sender={message.sender} />
                 </div>
               ) : (
                 <a
-                  href={`http://${window.location.hostname}:5000${message.file}`}
+                  href={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`}
                   target="_blank"
                   rel="noreferrer"
                   style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 12px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', color: 'inherit', textDecoration: 'none' }}
