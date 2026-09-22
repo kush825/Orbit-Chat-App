@@ -15,8 +15,11 @@ const loginAdmin = async (req, res) => {
     const { email, password } = req.body;
 
     // Auto-seed the super admin if it doesn't exist in the database yet
+    const superAdminEmail = process.env.ADMIN_EMAIL || 'admin@pulsechat.com';
+    const superAdminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
     let admin = await Admin.findOne({ email });
-    if (!admin && email === 'admin@pulsechat.com' && password === 'admin123') {
+    if (!admin && email === superAdminEmail && password === superAdminPassword) {
         admin = await Admin.create({ email, password });
     }
 
