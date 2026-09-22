@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { MessageSquare, Sparkles, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { useAuth } from '../context/AuthContext';
 
 const Login = ({ onSwitchToRegister, onBackToLanding }) => {
   const { login, loading } = useAuth();
