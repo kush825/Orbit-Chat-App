@@ -227,6 +227,15 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
     return null;
   };
 
+  const formatAudioUrl = (url) => {
+    if (!url) return '';
+    const fullUrl = url.startsWith('http') ? url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${url}`;
+    if (fullUrl.includes('res.cloudinary.com') && fullUrl.endsWith('.webm')) {
+      return fullUrl.replace('.webm', '.mp4');
+    }
+    return fullUrl;
+  };
+
   if (message.messageType === 'system') {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', margin: '12px 0', width: '100%' }}>
@@ -374,9 +383,9 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
         )}
 
         <div 
-          className={`message-item ${isSentByMe ? 'sent' : 'received'}`} 
+          className={`message-item ${isSentByMe ? 'sent' : 'received'} ${message.isOptimistic ? 'optimistic-message' : ''}`} 
           style={{ 
-            opacity: selectionMode && !isSelected ? 0.7 : 1,
+            opacity: message.isOptimistic ? 0.6 : (selectionMode && !isSelected ? 0.7 : 1),
             minWidth: 0, // Prevent flex overflow
             marginLeft: isSentByMe ? 'auto' : '0'
           }}
@@ -633,7 +642,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                   </div>
                 ) : (att.type && att.type.startsWith('audio/')) || (att.name && att.name.toLowerCase().endsWith('.webm')) || (att.url && att.url.toLowerCase().endsWith('.webm')) ? (
                   <div key={idx} style={{ padding: '2px', width: '100%' }}>
-                    <CustomAudioPlayer audioSrc={att.url.startsWith('http') ? att.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`} sender={message.sender} />
+                    <CustomAudioPlayer audioSrc={formatAudioUrl(att.url)} sender={message.sender} />
                   </div>
                 ) : (
                   <a
@@ -698,7 +707,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 </div>
               ) : (message.messageType === 'audio' || (message.file && message.file.endsWith('.webm'))) ? (
                 <div style={{ padding: '2px' }}>
-                  <CustomAudioPlayer audioSrc={message.file.startsWith('http') ? message.file : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`} sender={message.sender} />
+                  <CustomAudioPlayer audioSrc={formatAudioUrl(message.file)} sender={message.sender} />
                 </div>
               ) : (
                 <a

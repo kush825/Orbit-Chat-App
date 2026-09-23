@@ -456,10 +456,28 @@ export const ChatProvider = ({ children }) => {
       }
     }
 
+    // Optimistic UI update
+    const tempId = `temp-${Date.now()}`;
+    const isAudio = files && !Array.isArray(files) && files.type && files.type.startsWith('audio');
+    
+    const tempMsg = {
+      _id: tempId,
+      text: text || '',
+      sender: user, // assume user object is available in context
+      createdAt: new Date().toISOString(),
+      isOptimistic: true,
+      messageType: isAudio ? 'audio' : (files ? 'file' : 'text'),
+      replyTo: replyTo || null
+    };
+
+    setMessages((prev) => [...prev, tempMsg]);
+    setReplyTo(null);
+
     try {
       const newMsg = await sendMessageApi(formData);
-      setMessages((prev) => [...prev, newMsg]);
-      setReplyTo(null);
+      
+      // Replace temp message with real message
+      setMessages((prev) => prev.map(msg => msg._id === tempId ? newMsg : msg));
 
       // Emit via socket
       if (socket) {
