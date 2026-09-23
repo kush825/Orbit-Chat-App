@@ -49,6 +49,13 @@ const accessConversation = async (req, res) => {
         _id: createdConversation._id,
       }).populate('participants', '-password');
 
+      const io = req.app.get('io');
+      if (io) {
+        fullConversation.participants.forEach(p => {
+          io.to(p._id.toString()).emit('conversation_updated', fullConversation);
+        });
+      }
+
       res.status(200).send(fullConversation);
     }
   } catch (error) {
@@ -156,6 +163,18 @@ const createGroupConversation = async (req, res) => {
       .populate('groupAdmin', '-password')
       .populate('groupAdmins', '-password');
 
+    const io = req.app.get('io');
+    if (io) {
+      const allInvolved = new Set([
+        ...fullGroupChat.participants.map(p => p._id.toString()),
+        ...fullGroupChat.pendingParticipants.map(p => p._id.toString()),
+        req.user._id.toString()
+      ]);
+      allInvolved.forEach(uid => {
+        io.to(uid).emit('conversation_updated', fullGroupChat);
+      });
+    }
+
     res.status(200).json(fullGroupChat);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -185,6 +204,19 @@ const addToGroup = async (req, res) => {
       .populate('pendingParticipants', '-password')
       .populate('groupAdmin', '-password')
       .populate('groupAdmins', '-password');
+
+    const io = req.app.get('io');
+    if (io) {
+      const allInvolved = new Set([
+        ...added.participants.map(p => p._id.toString()),
+        ...added.pendingParticipants.map(p => p._id.toString()),
+        req.user._id.toString(),
+        userId
+      ]);
+      allInvolved.forEach(uid => {
+        io.to(uid).emit('conversation_updated', added);
+      });
+    }
 
     res.json(added);
   } catch (error) {
@@ -217,6 +249,19 @@ const removeFromGroup = async (req, res) => {
       .populate('pendingParticipants', '-password')
       .populate('groupAdmin', '-password')
       .populate('groupAdmins', '-password');
+
+    const io = req.app.get('io');
+    if (io) {
+      const allInvolved = new Set([
+        ...removed.participants.map(p => p._id.toString()),
+        ...removed.pendingParticipants.map(p => p._id.toString()),
+        req.user._id.toString(),
+        userId
+      ]);
+      allInvolved.forEach(uid => {
+        io.to(uid).emit('conversation_updated', removed);
+      });
+    }
 
     res.json(removed);
   } catch (error) {
@@ -258,6 +303,18 @@ const acceptRequest = async (req, res) => {
       .populate('groupAdmin', '-password')
       .populate('groupAdmins', '-password');
 
+    const io = req.app.get('io');
+    if (io) {
+      const allInvolved = new Set([
+        ...fullConv.participants.map(p => p._id.toString()),
+        ...fullConv.pendingParticipants.map(p => p._id.toString()),
+        req.user._id.toString()
+      ]);
+      allInvolved.forEach(uid => {
+        io.to(uid).emit('conversation_updated', fullConv);
+      });
+    }
+
     res.json(fullConv);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -294,6 +351,18 @@ const rejectRequest = async (req, res) => {
       .populate('pendingParticipants', '-password')
       .populate('groupAdmin', '-password')
       .populate('groupAdmins', '-password');
+
+    const io = req.app.get('io');
+    if (io) {
+      const allInvolved = new Set([
+        ...fullConv.participants.map(p => p._id.toString()),
+        ...fullConv.pendingParticipants.map(p => p._id.toString()),
+        req.user._id.toString()
+      ]);
+      allInvolved.forEach(uid => {
+        io.to(uid).emit('conversation_updated', fullConv);
+      });
+    }
 
     res.json(fullConv);
   } catch (error) {
