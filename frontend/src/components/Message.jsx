@@ -27,7 +27,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
   const messageRef = useRef(null);
 
   const handleToggleEmojiPicker = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!showEmojiPicker) {
       if (messageRef.current) {
         const rect = messageRef.current.getBoundingClientRect();
@@ -367,8 +367,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                handleToggleEmojiPicker();
-                toggleSelection(message._id);
+                handleToggleEmojiPicker(e);
               }}
               style={{
                 background: 'var(--bg-glass)', border: 'none', borderRadius: '50%',
@@ -779,7 +778,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
         <>
           <div 
             style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 40 }} 
-            onClick={(e) => { e.stopPropagation(); setShowEmojiPicker(false); toggleSelection(message._id); }}
+            onClick={(e) => { e.stopPropagation(); setShowEmojiPicker(false); if (selectionMode) toggleSelection(message._id); }}
           />
           <div
             style={{
@@ -794,7 +793,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
               onEmojiClick={(emojiObject) => {
                 toggleReaction(message._id, emojiObject.emoji);
                 setShowEmojiPicker(false);
-                toggleSelection(message._id); // Exit selection mode
+                if (selectionMode) toggleSelection(message._id); // Exit selection mode
               }}
               theme={theme === 'dark' ? 'dark' : 'light'}
               lazyLoadEmojis={true}
