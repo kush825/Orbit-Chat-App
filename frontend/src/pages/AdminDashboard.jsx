@@ -242,7 +242,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Analytics Charts */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '24px' }}>
+            <div className="admin-charts-grid">
               
               {/* User Growth Chart */}
               <div style={{ background: 'var(--bg-glass)', borderRadius: '12px', border: '1px solid var(--border-glass)', padding: '24px' }}>
@@ -400,10 +400,10 @@ const AdminDashboard = () => {
         </div>
       </header>
 
-      <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
+      <div className="admin-body">
         
         {/* Sidebar */}
-        <div style={{ width: '250px', background: 'rgba(15, 23, 42, 0.4)', borderRight: '1px solid var(--border-glass)', display: 'flex', flexDirection: 'column', padding: '24px 0' }}>
+        <div className="admin-sidebar">
           
           <button 
             onClick={() => { setActiveTab('DASHBOARD'); setSelectedReportId(null); setSelectedUserId(null); }}
@@ -445,7 +445,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Main Content Area */}
-        <div style={{ flex: 1, padding: '32px', overflowY: 'auto' }}>
+        <div className="admin-main-content">
           {renderContent()}
         </div>
 
