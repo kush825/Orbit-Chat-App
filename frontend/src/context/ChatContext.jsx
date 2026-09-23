@@ -456,19 +456,38 @@ export const ChatProvider = ({ children }) => {
       }
     }
 
-    // Optimistic UI update
-    const tempId = `temp-${Date.now()}`;
-    const isAudio = files && !Array.isArray(files) && files.type && files.type.startsWith('audio');
-    
-    const tempMsg = {
-      _id: tempId,
-      text: text || '',
-      sender: user, // assume user object is available in context
-      createdAt: new Date().toISOString(),
-      isOptimistic: true,
-      messageType: isAudio ? 'audio' : (files ? 'file' : 'text'),
-      replyTo: replyTo || null
-    };
+      // Optimistic UI update
+      const tempId = `temp-${Date.now()}`;
+      
+      let isAudio = false;
+      let tempFileUrl = null;
+      let tempAttachments = [];
+
+      if (files) {
+        if (Array.isArray(files)) {
+          tempAttachments = files.map(f => ({
+            name: f.name,
+            type: f.type,
+            url: URL.createObjectURL(f)
+          }));
+        } else {
+          isAudio = files.type && files.type.startsWith('audio');
+          tempFileUrl = URL.createObjectURL(files);
+        }
+      }
+      
+      const tempMsg = {
+        _id: tempId,
+        text: text || '',
+        sender: user,
+        createdAt: new Date().toISOString(),
+        isOptimistic: true,
+        messageType: isAudio ? 'audio' : (files ? (Array.isArray(files) ? 'file' : (files.type && files.type.startsWith('image/') ? 'image' : 'file')) : 'text'),
+        replyTo: replyTo || null,
+        file: tempFileUrl,
+        fileName: files && !Array.isArray(files) ? files.name : undefined,
+        attachments: tempAttachments.length > 0 ? tempAttachments : undefined
+      };
 
     setMessages((prev) => [...prev, tempMsg]);
     setReplyTo(null);
