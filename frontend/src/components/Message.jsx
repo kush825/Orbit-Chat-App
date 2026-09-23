@@ -633,7 +633,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                   </div>
                 ) : (att.type && att.type.startsWith('audio/')) || (att.name && att.name.toLowerCase().endsWith('.webm')) || (att.url && att.url.toLowerCase().endsWith('.webm')) ? (
                   <div key={idx} style={{ padding: '2px', width: '100%' }}>
-                    <CustomAudioPlayer audioSrc={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`} sender={message.sender} />
+                    <CustomAudioPlayer audioSrc={att.url.startsWith('http') ? att.url : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${att.url}`} sender={message.sender} />
                   </div>
                 ) : (
                   <a
@@ -698,7 +698,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 </div>
               ) : (message.messageType === 'audio' || (message.file && message.file.endsWith('.webm'))) ? (
                 <div style={{ padding: '2px' }}>
-                  <CustomAudioPlayer audioSrc={`${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`} sender={message.sender} />
+                  <CustomAudioPlayer audioSrc={message.file.startsWith('http') ? message.file : `${import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000`}${message.file}`} sender={message.sender} />
                 </div>
               ) : (
                 <a
