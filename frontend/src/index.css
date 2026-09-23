@@ -44,6 +44,7 @@ body {
   color: var(--text-main);
   min-height: 100vh;
   min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   overflow: hidden;
   /* Premium Mesh Background */
   background-image: 
@@ -75,6 +76,7 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   width: 100vw;
   overflow: hidden; /* Lock the app container to prevent scrolling */
   position: relative;
@@ -109,6 +111,8 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   padding: 40px;
   gap: 120px;
   position: relative;
@@ -258,6 +262,8 @@ body {
 .landing-wrapper {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
