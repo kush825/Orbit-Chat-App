@@ -43,8 +43,8 @@ const ModerationHistoryList = () => {
       <h2 style={{ color: '#fff', marginBottom: '24px' }}>Moderation History</h2>
       
       {/* Table */}
-      <div style={{ background: 'var(--bg-glass)', borderRadius: '12px', border: '1px solid var(--border-glass)', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', color: '#fff' }}>
+      <div style={{ background: 'var(--bg-glass)', borderRadius: '12px', border: '1px solid var(--border-glass)', overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', color: '#fff', minWidth: '700px' }}>
           <thead>
             <tr style={{ background: 'rgba(255,255,255,0.05)', borderBottom: '1px solid var(--border-glass)' }}>
               <th style={{ padding: '16px', fontWeight: 600, fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' }}>Date</th>
