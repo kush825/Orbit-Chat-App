@@ -282,6 +282,10 @@ const ChatWindow = () => {
     selectedMessages.includes(m._id) && (m.file || (m.attachments && m.attachments.length > 0))
   );
 
+  const hasDeletedMessage = messages.some(m => 
+    selectedMessages.includes(m._id) && m.isDeleted
+  );
+
   return (
     <div className="chat-window-wrapper" style={{ display: 'flex', flex: 1, flexDirection: 'row', minWidth: 0, width: '100%' }}>
       <div className="chat-window" style={{ flex: 1, borderRight: showUserProfile && !isGroup ? '1px solid rgba(255,255,255,0.05)' : 'none', minWidth: 0, display: 'flex', flexDirection: 'column' }}>
@@ -299,7 +303,7 @@ const ChatWindow = () => {
               </div>
             </div>
             <div className="chat-header-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px', position: 'relative' }}>
-              {selectedMessages.length === 1 && (
+              {!hasDeletedMessage && selectedMessages.length === 1 && (
                 <>
                   <button className="icon-btn" onClick={handleBulkReply} title="Reply">
                     <Reply size={22} />
@@ -318,13 +322,17 @@ const ChatWindow = () => {
                   </button>
                 </>
               )}
-              <button className="icon-btn" onClick={handleBulkCopy} title="Copy">
-                <Copy size={22} />
-              </button>
-              <button className="icon-btn" onClick={handleBulkForward} title="Forward">
-                <Forward size={22} />
-              </button>
-              {hasDownloadableMedia && (
+              {!hasDeletedMessage && (
+                <button className="icon-btn" onClick={handleBulkCopy} title="Copy">
+                  <Copy size={22} />
+                </button>
+              )}
+              {!hasDeletedMessage && (
+                <button className="icon-btn" onClick={handleBulkForward} title="Forward">
+                  <Forward size={22} />
+                </button>
+              )}
+              {!hasDeletedMessage && hasDownloadableMedia && (
                 <button className="icon-btn" onClick={handleBulkDownload} title="Download">
                   <Download size={22} />
                 </button>

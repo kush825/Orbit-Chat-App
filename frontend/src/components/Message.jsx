@@ -321,7 +321,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
         }}
       >
         {/* WhatsApp-style Reaction Popup */}
-        {selectionMode && isSelected && isSingleSelection && (
+        {selectionMode && isSelected && isSingleSelection && !message.isDeleted && (
           <div style={{
             position: 'absolute',
             top: '-50px',
