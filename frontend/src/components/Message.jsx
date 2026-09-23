@@ -562,7 +562,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
               </div>
             )}
           {/* Reply reference banner */}
-          {message.replyTo && (
+          {message.replyTo && !message.isDeleted && (
             <div 
               className="reply-reference" 
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', cursor: 'pointer' }}
@@ -622,7 +622,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
           )}
 
           {/* Attachments Preview */}
-          {message.attachments && message.attachments.length > 0 ? (
+          {!message.isDeleted && (message.attachments && message.attachments.length > 0 ? (
             <div style={{ marginBottom: '8px', display: 'flex', flexWrap: 'wrap', gap: '4px', maxWidth: '400px', borderRadius: '12px', overflow: 'hidden' }}>
               {message.attachments.map((att, idx) => {
                 const isImage = att.type && att.type.startsWith('image/');
@@ -721,7 +721,7 @@ const Message = ({ message, selectionMode, isSelected, isSingleSelection, toggle
                 </a>
               )}
             </div>
-          ) : null}
+          ) : null)}
 
           {/* Message Text */}
           <div style={{ fontStyle: message.isDeleted ? 'italic' : 'normal', opacity: message.isDeleted ? 0.7 : 1 }}>
