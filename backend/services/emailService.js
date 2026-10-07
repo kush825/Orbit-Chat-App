@@ -67,20 +67,6 @@ const sendWelcomeEmail = async (email, fullName) => {
   const senderEmail = process.env.EMAIL_FROM || 'parmarkush0089@gmail.com';
   const senderName = process.env.EMAIL_FROM_NAME || 'Orbit Team';
 
-  // Brevo expects attachments in base64 format
-  let attachmentContent = '';
-  try {
-    const logoPath = path.join(__dirname, '../../frontend/public/logo.png');
-    attachmentContent = fs.readFileSync(logoPath, { encoding: 'base64' });
-  } catch (err) {
-    console.warn('Could not load logo for welcome email attachment.');
-  }
-
-  const attachments = attachmentContent ? [{
-    content: attachmentContent,
-    name: 'logo.png'
-  }] : [];
-
   try {
     const response = await axios.post(
       'https://api.brevo.com/v3/smtp/email',
@@ -111,8 +97,7 @@ const sendWelcomeEmail = async (email, fullName) => {
               </p>
             </div>
           </div>
-        `,
-        attachment: attachments
+        `
       },
       {
         headers: {
