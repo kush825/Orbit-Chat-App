@@ -55,7 +55,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
     return { success: true };
   } catch (error) {
     console.error('Error sending email:', error);
-    throw new Error('Failed to send verification email');
+    throw new Error(`Failed to send verification email: ${error.message}`);
   }
 };
 
