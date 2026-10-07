@@ -222,11 +222,8 @@ const ChatWindow = () => {
     return (
       <div className="chat-window-wrapper" style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
         <div className="chat-window empty-state">
-          <div className="empty-icon">
-            <MessageSquare size={40} />
-          </div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
-            Welcome to Orbit
+            Welcome, {user?.name || 'User'}!
           </h2>
           <p style={{ maxWidth: '360px', fontSize: '0.9rem', lineHeight: 1.5 }}>
             Select an existing conversation from the sidebar or search for a user to start messaging in real-time.
