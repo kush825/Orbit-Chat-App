@@ -165,7 +165,7 @@ const Login = ({ onSwitchToRegister, onBackToLanding }) => {
                   <input
                     type="email"
                     className="input-field"
-                    placeholder="your@email.com"
+                    placeholder="Enter your email"
                     value={forgotEmail}
                     onChange={(e) => setForgotEmail(e.target.value)}
                     required
@@ -278,7 +278,7 @@ const Login = ({ onSwitchToRegister, onBackToLanding }) => {
             <input
               type="email"
               className="input-field"
-              placeholder="kush@example.com"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
