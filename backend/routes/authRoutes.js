@@ -9,6 +9,7 @@ const {
   seedUsers,
   forgotPassword,
   resetPassword,
+  testEmailConfig,
 } = require('../controllers/authController');
 const { protect } = require('../middleware/authMiddleware');
 
@@ -23,5 +24,6 @@ router.post('/logout', protect, logoutUser);
 router.post('/seed', seedUsers);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
+router.get('/test-email', testEmailConfig);
 
 module.exports = router;

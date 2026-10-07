@@ -421,6 +421,24 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// @desc    Test Email Configuration
+// @route   GET /api/auth/test-email
+// @access  Public
+const testEmailConfig = async (req, res) => {
+  try {
+    const { sendVerificationEmail } = require('../services/emailService');
+    const result = await sendVerificationEmail(process.env.SMTP_USER, 'Test User', '123456');
+    res.status(200).json({ success: true, message: 'Test email executed successfully', result, env: {
+      user: process.env.SMTP_USER,
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE,
+    }});
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to send test email', error: error.message, stack: error.stack });
+  }
+};
+
 module.exports = {
   registerUser,
   verifyOtp,
@@ -431,4 +449,5 @@ module.exports = {
   seedUsers,
   forgotPassword,
   resetPassword,
+  testEmailConfig,
 };
