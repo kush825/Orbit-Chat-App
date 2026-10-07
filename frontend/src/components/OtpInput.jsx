@@ -94,10 +94,10 @@ const OtpInput = ({ length = 6, onComplete }) => {
           style={{
             width: '45px',
             height: '55px',
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'var(--bg-glass)',
+            border: '1px solid var(--border-glass)',
             borderRadius: '10px',
-            color: '#fff',
+            color: 'var(--text-main)',
             fontSize: '1.5rem',
             textAlign: 'center',
             fontWeight: '600',
@@ -105,11 +105,11 @@ const OtpInput = ({ length = 6, onComplete }) => {
             transition: 'all 0.2s ease',
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = '#818cf8';
+            e.target.style.borderColor = 'var(--accent-primary)';
             e.target.style.boxShadow = '0 0 10px rgba(129, 140, 248, 0.3)';
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            e.target.style.borderColor = 'var(--border-glass)';
             e.target.style.boxShadow = 'none';
           }}
         />

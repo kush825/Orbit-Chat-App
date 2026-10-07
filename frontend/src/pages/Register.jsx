@@ -239,7 +239,7 @@ const Register = ({ onSwitchToLogin, onBackToLanding }) => {
             <p className="auth-subtitle" style={{ textAlign: 'center', marginBottom: '10px' }}>
               We sent a 6-digit verification code to
             </p>
-            <p style={{ color: '#fff', fontWeight: '600', marginBottom: '20px' }}>
+            <p style={{ color: 'var(--text-main)', fontWeight: '600', marginBottom: '20px' }}>
               {email.replace(/(.{2})(.*)(?=@)/, (gp1, gp2, gp3) => { 
                 return gp2 + gp3.replace(/./g, '*') 
               })}
@@ -296,7 +296,7 @@ const Register = ({ onSwitchToLogin, onBackToLanding }) => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'var(--text-muted)',
                   cursor: 'pointer',
                   fontSize: '0.85rem',
                   textDecoration: 'underline'
